@@ -1,7 +1,7 @@
 // Online C++ compiler to run C++ program online
 #include <iostream>
 #include<bits/stdc++.h>
-#define n1 33
+#define n1 93
 using namespace std;
 
 
@@ -218,16 +218,7 @@ int main()
        _heap=insert(_heap,a,b,str);
        h++;
     }
-    /*_heap=insert(_heap,2,32,"text");
-    _heap=insert(_heap,9,30,"keyword");
-    _heap=insert(_heap,10,31,"extract");
-    _heap=insert(_heap,11,39,"maxim");
-    _heap=insert(_heap,12,40,"frequent");
-    _heap=insert(_heap,13,41,"item");
-    _heap=insert(_heap,14,42,"set");
-    _heap=insert(_heap,18,27,"associ");
-    _heap=insert(_heap,19,28,"rule"); 
-    cout<<"Heap after insertion "<<endl;*/
+    
     cout<<endl;
     print_heap(_heap);
 
@@ -247,27 +238,12 @@ int main()
     head1->parent=head1->child=head1->sibling=NULL;
     head2->degree=0;
     head2->parent=head2->child=head2->sibling=NULL;
-    int flag=0;
-    if(head1->freq==head2->freq && head2->freq==1)
-    {
-        flag=-1;
-        break;
-    }
-    else if(head1->freq==1)
-    {
-        flag=1;
-        break;
-    }
-    else if(head2->freq==1)
-    {
-        flag=2;
-        break;
-    }
     if((curr_loc1+1)==curr_loc2)
     {  
         newnod=newnode(0,0,head1->s+" "+head2->s,0);
         newnod->data.pop_back();
         newnod->data.pop_back();
+        newnod->degree=0;
     }
     
     while(curr_loc1<curr_loc2)
@@ -286,58 +262,33 @@ int main()
             curr_loc2=0;
         }
     }
-    else if(curr_loc2!=curr_loc1+1 && head1->freq==head2->freq && head1->freq==1)
-    break;
     else 
     {
-        int now=head1->freq;
-        int one=head1->data[0];
-        int one_=head1->data[1];
-        int two=head2->data[0];
-        int two_=head2->data[1];
-        curr_loc1=head1->data[1];
-        head1->data[0]=head1->data[1];
-        head1->data[1]=0;;
-        int x=head1->data[0];
-        int y=head1->data[1];
-        head1->freq=1;
+      break;
     }
-    if(head1->freq==1 && head2->freq==2)
-    break;
     }
-    if(flag==2)
-    {
-        _heap=insert_tree_into_heap(_heap,head1);
-    }
-    else if(flag==-1)
-    {
-        continue;
-    }
-    else if(flag==1)
-    {
-        _heap=insert_tree_into_heap(_heap,head2);
-    }
-    else if(head1->freq!=0 && head2->freq!=0  && head1->freq!=head2->freq)
-    {
-        _heap=insert_tree_into_heap(_heap,head1);
-        _heap=insert_tree_into_heap(_heap,head2);
-    }
-    else if(head1->freq!=0 && head2->freq!=0  && head1->freq==head2->freq)
+    if(head1->freq==1 && head2->freq==1 )
     {
         free(newnod);
+        head2->freq=2;
+        _heap=insert_tree_into_heap(_heap,head2);
+    }
+    else if(head1->freq==2 && head2->freq==2)
+    {
         head2->freq=2;
         _heap=insert_tree_into_heap(_heap,head2);
     }
     else if(head1->freq==0 && head2->freq==0)
     {
         _heap2=insert_tree_into_heap(_heap2,newnod);
+        
     }
     }
     cout<<endl<<"Strings of length 2"<<endl;
     print_heap(_heap2);
     
     
-    while(_heap2.size()!=0)
+   while(_heap2.size()!=0)
     {
     head1=get_min(_heap2);
     _heap2=extract_min(_heap2);
@@ -375,35 +326,19 @@ int main()
             curr_loc2=0;
         }
     }
-    else if(curr_loc2!=curr_loc1+1 && head1->freq==head2->freq && head1->freq==1)
-    break;
     else 
     {
-        int now=head1->freq;
-        int one=head1->data[0];
-        int one_=head1->data[1];
-        int two=head2->data[0];
-        int two_=head2->data[1];
-        curr_loc1=head1->data[1];
-        head1->data[0]=head1->data[1];
-        head1->data[1]=0;;
-        int x=head1->data[0];
-        int y=head1->data[1];
-        head1->freq=1;
+        break;
     }
     }
-    if(head1->freq!=0 && head2->freq!=0  && head1->freq!=head2->freq)
-    { 
-        _heap2=insert_tree_into_heap(_heap2,head1);
-        _heap2=insert_tree_into_heap(_heap2,head2);
-    }
-    else if(head1->freq!=0 && head2->freq!=0  && head1->freq==head2->freq)
+    
+    if(head1->freq!=0 && head2->freq!=0  && head1->freq==head2->freq)
     {
-        free(newnod);
+        
         head2->freq=2;
         _heap2=insert_tree_into_heap(_heap2,head2);
     }
-    else
+    else if(head1->freq==0 && head2->freq==0)
     {
         _heap3=insert_tree_into_heap(_heap3,newnod);
     }
